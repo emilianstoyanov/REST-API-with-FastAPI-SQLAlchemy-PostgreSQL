@@ -1,4 +1,4 @@
-from fastapi import FastAPI,status
+from fastapi import FastAPI,status, HTTPException
 from pydantic import BaseModel
 from typing import Optional,List
 from database import SessionLocal
@@ -40,7 +40,16 @@ def create_an_item(item:Item):
         on_offer=item.on_offer
     )
 
+
+    db_item=db.query(models.Item).filter(item.name==new_item.name).first()
+
+    if db_item is not None:
+        raise HTTPException(status_code=400,detail="itam alreday exists")
+
     db.add(new_item)
+    db.commit()
+
+    return new_item
 
 @app.put('/item/{item_id}')
 def update_an_item(item_id:int):
