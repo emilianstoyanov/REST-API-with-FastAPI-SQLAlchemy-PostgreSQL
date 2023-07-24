@@ -54,7 +54,15 @@ def create_an_item(item:Item):
 
 @app.put('/item/{item_id}',response_model=Item,status_code=status.HTTP_200_OK)
 def update_an_item(item_id:int,item:Item):
-    item=db.query(models.Item).filter(models.Item.id==item_id).first()
+    item_to_update=db.query(models.Item).filter(models.Item.id==item_id).first()
+    item_to_update.name=item.name
+    item_to_update.price=item.price
+    item_to_update.description=item.description
+    item_to_update.on_offer=item.on_offer
+    
+    db.commit()
+    
+    return item_to_update
 
 @app.delete('/item/{item_id}')
 def delete_item(item_id:int):
