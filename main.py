@@ -26,9 +26,9 @@ def get_all_items():
 
     return items
 
-@app.get('/item/{item_id}')
+@app.get('/item/{item_id}', response_model=Item,status_code=status.HTTP_200_OK)
 def get_an_item(item_id:int):
-    pass
+    item=db.query(models.Item).filter(models.Item.id == item_id).first()
 
 @app.post('/items',response_model=Item,
           status_code=status.HTTP_201_CREATED)
@@ -44,7 +44,7 @@ def create_an_item(item:Item):
     db_item=db.query(models.Item).filter(item.name==new_item.name).first()
 
     if db_item is not None:
-        raise HTTPException(status_code=400,detail="itam alreday exists")
+        raise HTTPException(status_code=400,detail="Itam alreday exists")
 
     db.add(new_item)
     db.commit()
