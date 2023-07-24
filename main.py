@@ -66,4 +66,9 @@ def update_an_item(item_id:int,item:Item):
 
 @app.delete('/item/{item_id}')
 def delete_item(item_id:int):
-    pass
+    item_to_delete=db.query(models.Item).filter(models.Item.id==item_id).first()
+    
+    if item_to_delete is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Resource Not Found")
+    
+    return item_to_delete
