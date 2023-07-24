@@ -55,4 +55,13 @@ python main.py
 uvicorn main:app --reload
  ``` -->
 
+### http://localhost:8000/docs
+
+ ![Alt text](image.png)
+
+
+
+### http://localhost:8000/redoc
+
+![Alt text](image-1.png)
 
