@@ -1,5 +1,7 @@
+from sqlalchemy.sql.expression import null
 from database import Base
 from sqlalchemy import String,Boolean,Integer,Column,Text
+
 
 class Item(Base):
     __tablename__='items'
@@ -10,6 +12,5 @@ class Item(Base):
     on_offer=Column(Boolean,default=False)
 
 
-
     def __repr__(self):
-        return f"<Item name={self.name} {self.price}>"
+        return f"<Item name={self.name} price={self.price}>"
