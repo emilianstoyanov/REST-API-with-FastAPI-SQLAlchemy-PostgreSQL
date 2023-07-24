@@ -71,4 +71,7 @@ def delete_item(item_id:int):
     if item_to_delete is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Resource Not Found")
     
+    db.delete(item_to_delete)
+    db.commit()
+    
     return item_to_delete
