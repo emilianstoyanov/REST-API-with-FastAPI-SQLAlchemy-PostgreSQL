@@ -29,6 +29,7 @@ def get_all_items():
 @app.get('/item/{item_id}', response_model=Item,status_code=status.HTTP_200_OK)
 def get_an_item(item_id:int):
     item=db.query(models.Item).filter(models.Item.id == item_id).first()
+    return item
 
 @app.post('/items',response_model=Item,
           status_code=status.HTTP_201_CREATED)
@@ -51,9 +52,9 @@ def create_an_item(item:Item):
 
     return new_item
 
-@app.put('/item/{item_id}')
-def update_an_item(item_id:int):
-    pass
+@app.put('/item/{item_id}',response_model=Item,status_code=status.HTTP_200_OK)
+def update_an_item(item_id:int,item:Item):
+    item=db.query(models.Item).filter(models.Item.id==item_id).first()
 
 @app.delete('/item/{item_id}')
 def delete_item(item_id:int):
