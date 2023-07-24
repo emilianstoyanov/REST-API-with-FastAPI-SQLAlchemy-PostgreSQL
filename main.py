@@ -34,6 +34,11 @@ def get_an_item(item_id:int):
 @app.post('/items',response_model=Item,
           status_code=status.HTTP_201_CREATED)
 def create_an_item(item:Item):
+    db_item=db.query(models.Item).filter(models.Item.name==item.name).first()
+
+    if db_item is not None:
+        raise HTTPException(status_code=400,detail="Itam alreday exists")
+    
     new_item=models.Item(
         name=item.name,
         price=item.price,
@@ -41,11 +46,6 @@ def create_an_item(item:Item):
         on_offer=item.on_offer
     )
 
-
-    db_item=db.query(models.Item).filter(item.name==new_item.name).first()
-
-    if db_item is not None:
-        raise HTTPException(status_code=400,detail="Itam alreday exists")
 
     db.add(new_item)
     db.commit()
